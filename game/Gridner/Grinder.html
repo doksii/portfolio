@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Prestige 2.0 Grinder Minigame</title>
+    <meta name="description" content="Play the Prestige 2.0 Grinder Minigame to test your memory.">
+    <link rel="canonical" href="https://sharkiller.ddns.net/nopixel_minigame/thermite/" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.4">
+    <link rel="icon" type="image/png" href="favicon.ico" sizes="32x32" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/solid.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="Grinder.css">
+    <script defer src="Grinder.js"></script>
+    <script> // Microsoft Bing
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/9twm8m8r4i?ref=bwt";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "9twm8m8r4i");
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52394643-1"></script>
+    <script> // Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-52394643-1');
+    </script>
+</head>
+<body>
+    <h1 class="title">Prestige 2.0 Grinder Minigame</h1>
+    <h3 class="description">
+        Play the Prestige 2.0 Grinder Minigame to test your memory.
+        <br><br>
+        <u>How to play:</u> Remember the number sequence and the number positions to replicate it later when they hide.
+        <br><br><br>
+        5x5 = 1 to 5 || 6x6 = 1 to 8 || 7x7 = 1 to 14 || 8x8 = 1 to 18 || 9x9 = 1 to 20 || 10x10 = 1 to 24 
+        <br><br>
+    </h3>
+    <div class="streaks">
+        STREAK: <span class="streak">0</span> <span class="fa">&#xf21b;</span> MAX STREAK: <span class="max_streak">0</span>
+        <br>TIME: <span class="time">0.000</span> <span class="fa">&#xf2f2;</span> BEST TIME: <span class="best_time">0.000</span>
+    </div>
+    <div class="options">
+        <div class="option speed">
+            <label for="speed">Timer:</label>
+            <input id="speed" type="range" value="6" min="4" max="30" autocomplete="off" title="Set the end time of the game">
+            <div class="speed_value">6s</div>
+        </div>
+
+        <div class="option grid">
+            <label for="grid">Grid:</label>
+            <input id="grid" type="range" value="6" min="5" max="10" autocomplete="off" title="Set the grid or the difficulty of the game.">
+            <div class="grid_value">6x6</div>
+        </div>
+
+        <div class="option speed">
+            <label for="speed1">Time before the numbers hide:</label>
+            <input id="speed1" type="range" value="5" min="4" max="20" autocomplete="off" title="Set the timer before the numbers hide.">
+            <div class="value speed_value">5s</div>
+        </div>
+    </div>
+    <div class="minigame">
+        <div class="splash"><div class="fa hacker">&#xf21b;</div>Remote Sequencing Required</div>
+        <div class="groups hidden"></div>
+    </div>
+    <div class="restart"><button class="btn_again">AGAIN!</button></div>
+
+</body>
+</html>

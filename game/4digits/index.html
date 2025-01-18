@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4-Digit Guessing Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f3f3f3;
+    }
+    .game-container {
+        text-align: center;
+        width: 96%;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+    .number-input {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+    }
+    .number-input input {
+        width: 200px;
+        height: 200px;
+        text-align: center;
+        font-size: 100px;
+        border-radius: 5px;
+        border: 2px solid #ccc;
+    }
+    .number-input input.correct {
+        background-color: #8BC34A;
+    }
+    .number-input input.partial {
+        background-color: #FFEB3B;
+    }
+    .number-input input.wrong {
+        background-color: #FF5252;
+    }
+    .status {
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    .timer {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+</head>
+<body>
+<div class="game-container">
+    <h2>Guess the 4-Digit Number</h2>
+    <div class="timer">Time Left: <span id="timer">40</span>s</div>
+    <div class="number-input">
+        <input type="text" maxlength="1" id="digit1" oninput="moveToNext(1)">
+        <input type="text" maxlength="1" id="digit2" oninput="moveToNext(2)">
+        <input type="text" maxlength="1" id="digit3" oninput="moveToNext(3)">
+        <input type="text" maxlength="1" id="digit4" oninput="moveToNext(4)">
+    </div>
+    <div class="status" id="status"></div>
+</div>
+
+<script>
+    const targetNumber = generateUniqueRandomNumber();
+    let attempts = 0;
+    let timeLeft = 40;
+    let interval = setInterval(updateTimer, 1000);
+
+    function generateUniqueRandomNumber() {
+        const digits = [];
+        while (digits.length < 4) {
+            const randomDigit = Math.floor(Math.random() * 10);
+            if (!digits.includes(randomDigit)) {
+                digits.push(randomDigit);
+            }
+        }
+        return digits;
+    }
+
+    function updateTimer() {
+        timeLeft--;
+        document.getElementById('timer').textContent = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            alert("Time's up! You lost the game.");
+            resetGame();
+        }
+    }
+
+    function moveToNext(position) {
+        const currentInput = document.getElementById(`digit${position}`);
+        if (currentInput.value !== "" && position < 4) {
+            document.getElementById(`digit${position + 1}`).focus();
+        }
+        if (position === 4 && allDigitsFilled()) {
+            checkGuess();
+        }
+    }
+
+    function allDigitsFilled() {
+        for (let i = 1; i <= 4; i++) {
+            if (document.getElementById(`digit${i}`).value === "") {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function checkGuess() {
+        const guess = [
+            document.getElementById('digit1').value,
+            document.getElementById('digit2').value,
+            document.getElementById('digit3').value,
+            document.getElementById('digit4').value
+        ];
+
+        attempts++;
+        let correctCount = 0;
+
+        for (let i = 0; i < 4; i++) {
+            const inputElement = document.getElementById(`digit${i+1}`);
+            if (guess[i] == targetNumber[i]) {
+                inputElement.className = "correct";
+                correctCount++;
+            } else if (targetNumber.includes(Number(guess[i]))) {
+                inputElement.className = "partial";
+            } else {
+                inputElement.className = "wrong";
+            }
+        }
+
+        if (correctCount === 4) {
+            document.getElementById('status').textContent = "Congratulations! You've guessed correctly!";
+            clearInterval(interval);
+            return;
+        }
+
+        if (attempts % 4 === 0) {
+            setTimeout(clearInputs, 1000);
+        } else {
+            setTimeout(() => {
+                clearColors();
+                clearInputs();
+            }, 500);
+        }
+    }
+
+    function clearInputs() {
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById(`digit${i}`).value = "";
+        }
+        document.getElementById('digit1').focus();
+    }
+
+    function clearColors() {
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById(`digit${i}`).className = "";
+        }
+    }
+
+    function resetGame() {
+        clearInterval(interval);
+        interval = setInterval(updateTimer, 1000);
+        timeLeft = 40;
+        document.getElementById('timer').textContent = timeLeft;
+        clearInputs();
+        clearColors();
+        document.getElementById('status').textContent = "";
+        attempts = 0;
+    }
+</script>
+</body>
+</html>
