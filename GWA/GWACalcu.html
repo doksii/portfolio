@@ -10,15 +10,22 @@
       background-color: #f4f4f4;
     }
 
+    .main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
     .table-container {
       overflow-x: auto;
       background-color: white;
       border-radius: 8px;
+      width: 600px;
     }
 
     table {
       width: 100%;
-      min-width: 600px;
       border-collapse: collapse;
     }
 
@@ -68,27 +75,29 @@
 </head>
 <body>
 
-  <h1>Final GWA Calculator for BIT CompTech Graduating Students lang kasi Preset yung Subjects</h1>
-  <div class="table-container">
-      <table id="subjectTable">
-      <thead>
-        <tr>
-          <th>Subject</th>
-          <th class="hidden">Units</th>
-          <th>Grade</th>
-        </tr>
-      </thead>
-      <tbody>
+  <div class="main">
+    <h1>Final GWA Calculator for BIT CompTech Graduating Students lang kasi Preset yung Subjects</h1>
+    <div class="table-container">
+        <table id="subjectTable">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th class="hidden">Units</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
 
-      </tbody>
-    </table>
-  </div>
-  <br>
+        </tbody>
+      </table>
+    </div>
+    <br>
 
-  <div class="actions">
-    <button onclick="calculateGWA()">Calculate GWA</button>
-    <button onclick="resetGrades()">Reset</button>
-    <span id="result"></span>
+    <div class="actions">
+      <button onclick="calculateGWA()">Calculate GWA</button>
+      <button onclick="resetGrades()">Reset</button>
+      <span id="result"></span>
+    </div>
   </div>
 
   <script>
