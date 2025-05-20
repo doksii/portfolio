@@ -176,39 +176,43 @@
       let totalWeighted = 0;
       let totalUnits = 0;
       let lowestGrade = 0;
-
+    
       for (let i = 0; i < subjects.length; i++) {
         const gradeEl = document.getElementById(`grade-${i}`);
         const grade = parseFloat(gradeEl.value);
-
+    
         if (isNaN(grade)) {
           gradeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
           gradeEl.focus();
           document.getElementById("result").textContent = "Please complete all grades.";
           return;
         }
-
+    
         if (grade > lowestGrade) {
           lowestGrade = grade;
         }
+    
         totalWeighted += grade * subjects[i].units;
         totalUnits += subjects[i].units;
       }
-
-      const gwa = totalWeighted / totalUnits;
+    
+      const gwaRaw = totalWeighted / totalUnits;
+      const gwaDisplay = parseFloat(gwaRaw.toFixed(5)); // for displaying
+      const gwaForHonor = parseFloat(gwaRaw.toFixed(2)); // for honor evaluation
+    
       let honor = "";
-
-      if (gwa <= 1.20 && lowestGrade <= 2.00) {
+    
+      if (gwaForHonor <= 1.20 && lowestGrade <= 2.00) {
         honor = "Summa Cum Laude";
-      } else if (gwa <= 1.45 && lowestGrade <= 2.25) {
+      } else if (gwaForHonor <= 1.45 && lowestGrade <= 2.25) {
         honor = "Magna Cum Laude";
-      } else if (gwa <= 1.75 && lowestGrade <= 2.50) {
+      } else if (gwaForHonor <= 1.75 && lowestGrade <= 2.50) {
         honor = "Cum Laude";
       } else {
         honor = "No Latin Honor";
       }
-
-      document.getElementById("result").textContent = `Your GWA is: ${gwa.toFixed(5)} | ${honor}`;
+    
+      document.getElementById("result").textContent = `Your GWA is: ${gwaDisplay.toFixed(5)} | ${honor}`;
     }
 
     function resetGrades() {
