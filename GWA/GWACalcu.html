@@ -70,11 +70,6 @@
     .hidden {
       display: none;
     }
-    @media(max-width: 800px){
-      #result, button, select, th, td {
-        font-size: 30px;
-      }
-    }
   </style>
 
 </head>
@@ -165,7 +160,7 @@
     const tableBody = document.querySelector("#subjectTable tbody");
 
     function generateGradeOptions() {
-      let options = '<option value="" disabled selected>--</option>';
+      let options = '<option value="" disabled selected>Grade</option>';
       for (let grade = 1.00; grade <= 3.00; grade += 0.25) {
         options += `<option value="${grade.toFixed(2)}">${grade.toFixed(2)}</option>`;
       }
