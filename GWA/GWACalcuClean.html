@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GWA Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+      background-color: white;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    select {
+      padding: 6px;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    #result {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1; 
+      left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto; 
+      padding: 20px; 
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+    }
+    .modal-content img {
+      width: 100%;
+      height: auto;
+    }
+    .modal-message {
+      margin-top: 15px;
+      font-size: 1.1em;
+    }
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 40px;
+      cursor: pointer;
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="main">
+    <h1>Final GWA Calculator for BIT CompTech Graduating Students lang kasi Preset yung Subjects</h1>
+    <div class="table-container">
+        <table id="subjectTable">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th class="hidden">Units</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+    <br>
+
+    <div class="actions">
+      <button onclick="calculateGWA()">Calculate GWA</button>
+      <button onclick="resetGrades()">Reset</button>
+      <span id="result"></span>
+    </div>
+  </div>
+
+  <div id="imageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="hideModal()">&times;</span><br><br>
+      <img src="asd.gif" alt="Modal Image" />
+      <div class="modal-message"><span id="modalResult"></span></div>
+    </div>
+  </div>
+
+  <script>
+    const subjects = [
+      { name: "Understanding the Self", units: 3 },
+      { name: "Purposive Communication", units: 3 },
+      { name: "Mathematics in the Modern World", units: 3 },
+      { name: "Basic Shop Practice", units: 3 },
+      { name: "Operating Systems Concept and Configuration", units: 3 },
+      { name: "Computer Software Application", units: 3 },
+      { name: "Introduction to Industrial Technology", units: 2 },
+      { name: "PATHFit 1", units: 2 },
+      { name: "Reading in Philippine History", units: 3 },
+      { name: "Art Appreciation", units: 3 },
+      { name: "Pagsasalin sa Iba't Ibang Disiplina", units: 3 },
+      { name: "Computer Programming 1", units: 3 },
+      { name: "Logic Circuit Operation and Analysis", units: 3 },
+      { name: "Electronics for Computer Technology", units: 3 },
+      { name: "PATHFit 2", units: 2 },
+      { name: "Panitikan at Lipunan", units: 3 },
+      { name: "The Contemporary World", units: 3 },
+      { name: "Science, Technology and Society", units: 3 },
+      { name: "Occupational Safety and Health", units: 2 },
+      { name: "Foreign Language I", units: 3 },
+      { name: "Reading Visual Art", units: 3 },
+      { name: "Computer Networking I", units: 3 },
+      { name: "Computer Hardware Servicing and Maintenance", units: 3 },
+      { name: "PATHFit 3", units: 2 },
+      { name: "Environmental Science", units: 3 },
+      { name: "The Entrepreneurial Mind", units: 3 },
+      { name: "Human Resource Management", units: 3 },
+      { name: "Computer Programming 2", units: 3 },
+      { name: "Database Management System", units: 3 },
+      { name: "PATHFit 4", units: 2 },
+      { name: "Statistics for Technology", units: 3 },
+      { name: "Strategic Management in Computer Technology", units: 3 },
+      { name: "Ethics", units: 3 },
+      { name: "Plant Visit and Seminars", units: 2 },
+      { name: "Technical Graphics", units: 3 },
+      { name: "Computer Programming 3", units: 3 },
+      { name: "Database Management System 2", units: 3 },
+      { name: "Embedded System", units: 3 },
+      { name: "Technology Research 1", units: 3 },
+      { name: "Total Quality Management", units: 3 },
+      { name: "Technopreneurship", units: 3 },
+      { name: "Environmental and Waste Management", units: 3 },
+      { name: "Industrial Interface Design and Development I", units: 3 },
+      { name: "Computer Programming 4", units: 3 },
+      { name: "Computer Networking II", units: 3 },
+      { name: "Life and Works of Rizal", units: 3 },
+      { name: "Foreign Language II", units: 3 },
+      { name: "Technology Research 2", units: 3 },
+      { name: "Embedded System II", units: 3 },
+      { name: "Intellectual Property Rights", units: 3 },
+      { name: "Operating System Administration and Management", units: 3 },
+      { name: "Industrial Interface Design and Development II", units: 3 },
+      { name: "Student Internship Program", units: 12 }
+    ];
+
+    const tableBody = document.querySelector("#subjectTable tbody");
+
+    function generateGradeOptions() {
+      let options = '<option value="" disabled selected>Grade</option>';
+      for (let grade = 1.00; grade <= 3.00; grade += 0.25) {
+        options += `<option value="${grade.toFixed(2)}">${grade.toFixed(2)}</option>`;
+      }
+      return options;
+    }
+
+    subjects.forEach((subject, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${subject.name}</td>
+        <td class="hidden">${subject.units}</td>
+        <td>
+          <select id="grade-${index}" required>
+            ${generateGradeOptions()}
+          </select>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+
+    function calculateGWA() {
+      let totalWeighted = 0;
+      let totalUnits = 0;
+      let lowestGrade = 0;
+    
+      for (let i = 0; i < subjects.length; i++) {
+        const gradeEl = document.getElementById(`grade-${i}`);
+        const grade = parseFloat(gradeEl.value);
+    
+        if (isNaN(grade)) {
+          gradeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          gradeEl.focus();
+          document.getElementById("result").textContent = "Please complete all grades.";
+          return;
+        }
+    
+        if (grade > lowestGrade) {
+          lowestGrade = grade;
+        }
+    
+        totalWeighted += grade * subjects[i].units;
+        totalUnits += subjects[i].units;
+      }
+    
+      const gwaRaw = totalWeighted / totalUnits;
+      const gwaDisplay = parseFloat(gwaRaw.toFixed(5));
+      const gwaForHonor = parseFloat(gwaRaw.toFixed(2));
+    
+      let honor = "";
+    
+      if (gwaForHonor <= 1.20 && lowestGrade <= 2.00) {
+        honor = "Summa Cum Laude";
+      } else if (gwaForHonor <= 1.45 && lowestGrade <= 2.25) {
+        honor = "Magna Cum Laude";
+      } else if (gwaForHonor <= 1.75 && lowestGrade <= 2.50) {
+        honor = "Cum Laude";
+      } else {
+        honor = "No Latin Honor";
+      }
+    
+      document.getElementById("imageModal").style.display = "block";
+      document.getElementById("result").textContent = `Your GWA is: ${gwaDisplay.toFixed(5)} | ${honor}`;
+      document.getElementById("modalResult").textContent = `Your GWA is: ${gwaDisplay.toFixed(5)} | ${honor}`;
+    }
+
+    function hideModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("imageModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    
+    function resetGrades() {
+      subjects.forEach((_, index) => {
+        document.getElementById(`grade-${index}`).value = "";
+      });
+      document.getElementById("result").textContent = "";
+    }
+  </script>
+
+</body>
+</html>
