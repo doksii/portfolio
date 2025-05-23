@@ -70,6 +70,38 @@
     .hidden {
       display: none;
     }
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1; 
+      left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto; 
+      padding: 20px; 
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+    }
+    .modal-content img {
+      width: 100%;
+      height: auto;
+    }
+    .modal-message {
+      margin-top: 15px;
+      font-size: 1.1em;
+    }
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 40px;
+      cursor: pointer;
+    }
   </style>
 
 </head>
@@ -97,6 +129,14 @@
       <button onclick="calculateGWA()">Calculate GWA</button>
       <button onclick="resetGrades()">Reset</button>
       <span id="result"></span>
+    </div>
+  </div>
+
+  <div id="imageModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="hideModal()">&times;</span><br><br>
+      <img src="asd.gif" alt="Modal Image" />
+      <div class="modal-message"><span id="modalResult"></span></div>
     </div>
   </div>
 
@@ -221,9 +261,22 @@
         honor = "No Latin Honor";
       }
     
+      document.getElementById("imageModal").style.display = "block";
       document.getElementById("result").textContent = `Your GWA is: ${gwaDisplay.toFixed(5)} | ${honor}`;
+      document.getElementById("modalResult").textContent = `Your GWA is: ${gwaDisplay.toFixed(5)} | ${honor}`;
     }
 
+    function hideModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("imageModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    
     function resetGrades() {
       subjects.forEach((_, index) => {
         document.getElementById(`grade-${index}`).value = "";
